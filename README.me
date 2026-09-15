@@ -1,113 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
+# Turbo
 
-    <h1>Turbo</h1>
-    <p>A Compiler and Byte Code Virtual Machine for a Pascal-like language</p>
+A Compiler and Byte Code Virtual Machine for a Pascal-like language
 
-    <h2>Documentation</h2>
+## Documentation
 
-    <h1>🚀 Turbo Pascal 64-bit Ecosystem</h1>
+<h1>🚀 Turbo Pascal 64-bit Ecosystem</h1>
 
-    <blockquote>
-        <strong>A modern tribute to a classic legend.</strong> An open-source, lightweight development ecosystem built in memory of <strong>Borland Turbo Pascal</strong> (1980s). This project modernizes classic Pascal syntax with a fully functional compiler and a robust <strong>64-bit Virtual Machine</strong> engineered natively for <strong>macOS</strong> and <strong>Linux</strong>.
-    </blockquote>
+<blockquote>
+    <strong>A modern tribute to a classic legend.</strong> An open-source, lightweight development ecosystem built in memory of <strong>Borland Turbo Pascal</strong> (1980s). This project modernizes classic Pascal syntax with a fully functional compiler and a robust <strong>64-bit Virtual Machine</strong> engineered natively for <strong>macOS</strong> and <strong>Linux</strong>.
+</blockquote>
 
-    <hr>
+<hr>
 
-    <h2>⚡ Core Features</h2>
+## ⚡ Core Features
 
-    <h3>🛠️ The Compiler Subsystem</h3>
-    <ul>
-        <li><strong>Pascal-Oriented Syntax:</strong> Full support for custom Pascal-like semantics, driving lexical analysis, parsing, and code generation.</li>
-        <li><strong>Dual-Mode Engine:</strong> Flexible execution directly from raw <strong>Source Text Files</strong> (interpreted) or pre-compiled <strong>Virtual Machine Binary Files</strong>.</li>
-        <li><strong>Type Safety Core:</strong> Integrated validation subsystem enforcing strict runtime type checking.</li>
-    </ul>
+### 🛠️ The Compiler Subsystem
+* **Pascal-Oriented Syntax:** Full support for custom Pascal-like semantics, driving lexical analysis, parsing, and code generation.
+* **Dual-Mode Engine:** Flexible execution directly from raw **Source Text Files** (interpreted) or pre-compiled **Virtual Machine Binary Files**.
+* **Type Safety Core:** Integrated validation subsystem enforcing strict runtime type checking.
 
-    <h3>🖥️ The Virtual Machine Subsystem</h3>
-    <ul>
-        <li><strong>64-Bit Native Architecture:</strong> Fully optimized for x86_64 and ARM64 registers and address spaces on Unix-like systems.</li>
-        <li><strong>Smart Runtime Setup:</strong> Instant bootstrapping of critical CPU-like pointers (<code>ip</code>, <code>dx</code>, <code>sp</code>) and runtime memory segments.</li>
-        <li><strong>Dynamic Call Stack:</strong> Native isolation of scopes and execution contexts using optimized Activation Records (<code>ActivationRecord</code>).</li>
-        <li><strong>Low-Level Serialization:</strong> High-performance binary object serialization and bulk data transfer routines.</li>
-    </ul>
+### 🖥️ The Virtual Machine Subsystem
+* **64-Bit Native Architecture:** Fully optimized for x86_64 and ARM64 registers and address spaces on Unix-like systems.
+* **Smart Runtime Setup:** Instant bootstrapping of critical CPU-like pointers (`ip`, `dx`, `sp`) and runtime memory segments.
+* **Dynamic Call Stack:** Native isolation of scopes and execution contexts using optimized Activation Records (`ActivationRecord`).
+* **Low-Level Serialization:** High-performance binary object serialization and bulk data transfer routines.
 
-    <hr>
+<hr>
 
-    <h2>📁 Repository Structure</h2>
+## 📁 Repository Structure
 
-    <table border="1" cellpadding="5" cellspacing="0">
-        <thead>
-            <tr>
-                <th>File</th>
-                <th>Subsystem / Layer</th>
-                <th>Responsibility</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong><code>turbo.c</code></strong></td>
-                <td>Main / Core I/O</td>
-                <td>App entry point, file persistence, and object serialization.</td>
-            </tr>
-            <tr>
-                <td><strong><code>lexico.c</code></strong></td>
-                <td>Compiler Frontend</td>
-                <td>Lexical analyzer (tokenizer) for parsing Pascal source files.</td>
-            </tr>
-            <tr>
-                <td><strong><code>sintactico.c</code></strong></td>
-                <td>Compiler Frontend</td>
-                <td>Syntactic parser. Builds the Abstract Syntax Tree (AST) &amp; checks types.</td>
-            </tr>
-            <tr>
-                <td><strong><code>gencode.c</code></strong></td>
-                <td>Compiler Backend</td>
-                <td>Target code generation. Outputs custom virtual machine bytecode.</td>
-            </tr>
-            <tr>
-                <td><strong><code>maquina.c</code></strong></td>
-                <td>Virtual Machine</td>
-                <td>Core VM engine. Runs the <em>Fetch-Decode-Execute</em> cycle and stack copies.</td>
-            </tr>
-            <tr>
-                <td><strong><code>*.h</code> headers</strong></td>
-                <td>Shared Architecture</td>
-                <td>Structural definitions (<code>ActivationRecord</code>, registers, shared state).</td>
-            </tr>
-            <tr>
-                <td><strong><code>Makefile</code></strong></td>
-                <td>Build Automation</td>
-                <td>Automated, warning-free build script optimized for GCC and Clang.</td>
-            </tr>
-        </tbody>
-    </table>
+<table border="1" cellpadding="5" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>File</th>
+            <th>Subsystem / Layer</th>
+            <th>Responsibility</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong><code>turbo.c</code></strong></td>
+            <td>Main / Core I/O</td>
+            <td>App entry point, file persistence, and object serialization.</td>
+        </tr>
+        <tr>
+            <td><strong><code>lexico.c</code></strong></td>
+            <td>Compiler Frontend</td>
+            <td>Lexical analyzer (tokenizer) for parsing Pascal source files.</td>
+        </tr>
+        <tr>
+            <td><strong><code>sintactico.c</code></strong></td>
+            <td>Compiler Frontend</td>
+            <td>Syntactic parser. Builds the Abstract Syntax Tree (AST) &amp; checks types.</td>
+        </tr>
+        <tr>
+            <td><strong><code>gencode.c</code></strong></td>
+            <td>Compiler Backend</td>
+            <td>Target code generation. Outputs custom virtual machine bytecode.</td>
+        </tr>
+        <tr>
+            <td><strong><code>maquina.c</code></strong></td>
+            <td>Virtual Machine</td>
+            <td>Core VM engine. Runs the <em>Fetch-Decode-Execute</em> cycle and stack copies.</td>
+        </tr>
+        <tr>
+            <td><strong><code>*.h</code> headers</strong></td>
+            <td>Shared Architecture</td>
+            <td>Structural definitions (<code>ActivationRecord</code>, registers, shared state).</td>
+        </tr>
+        <tr>
+            <td><strong><code>Makefile</code></strong></td>
+            <td>Build Automation</td>
+            <td>Automated, warning-free build script optimized for GCC and Clang.</td>
+        </tr>
+    </tbody>
+</table>
 
-    <hr>
+<hr>
 
-    <h2>🛠️ Requirements &amp; Installation</h2>
-    <p>This ecosystem compiles with <strong>zero warnings</strong> natively on modern 64-bit Unix platforms.</p>
+## 🛠️ Requirements & Installation
 
-    <h3>💻 OS Compatibility</h3>
-    <ul>
-        <li><strong>macOS</strong> <em>(Intel &amp; Apple Silicon / M-Series via native ARM64 compilation)</em></li>
-        <li><strong>Linux</strong> <em>(Ubuntu, Debian, Fedora, Arch, and derivatives)</em></li>
-    </ul>
+This ecosystem compiles with **zero warnings** natively on modern 64-bit Unix platforms.
 
-    <h3>⚙️ Compilation Commands</h3>
-    <p>To build the entire ecosystem into a single, clean executable named <code>turbo</code>:</p>
+### 💻 OS Compatibility
+* **macOS** *(Intel & Apple Silicon / M-Series via native ARM64 compilation)*
+* **Linux** *(Ubuntu, Debian, Fedora, Arch, and derivatives)*
+
+### ⚙️ Compilation Commands
+
+To build the entire ecosystem into a single, clean executable named `turbo`:
+
 <pre><code>make</code></pre>
 
-    <p>To wipe intermediate object files (<code>*.o</code>) and clear binary artifacts:</p>
+To wipe intermediate object files (`*.o`) and clear binary artifacts:
+
 <pre><code>make clean</code></pre>
 
-    <hr>
+<hr>
 
-    <h2>🚀 Quick Start Guide</h2>
-    <p>Once the <code>turbo</code> binary is compiled, you can leverage its dual-mode engine straight from your terminal:</p>
+## 🚀 Quick Start Guide
+
+Once the `turbo` binary is compiled, you can leverage its dual-mode engine straight from your terminal:
 
 <pre><code># Mode 1: Execute directly from raw Pascal text (Interpreted Mode)
 ./turbo program.pas
@@ -115,12 +108,14 @@
 # Mode 2: Execute a pre-compiled VM bytecode binary layout
 ./turbo --run program.bin</code></pre>
 
-    <hr>
+<hr>
 
-    <h2>🏗️ Execution Blueprint &amp; Bytecode Mapping</h2>
-    <p>The compiler features an execution map pipeline. Alongside your binary output, <code>turbo</code> automatically dumps an <strong>Assembly-like Mapping File (<code>.mas</code>)</strong> that visually breaks down stack pointer operations.</p>
+## 🏗️ Execution Blueprint & Bytecode Mapping
 
-    <h3>📝 Example: Recursive Factorial (<code>ej04.pas</code>)</h3>
+The compiler features an execution map pipeline. Alongside your binary output, `turbo` automatically dumps an **Assembly-like Mapping File (`.mas`)** that visually breaks down stack pointer operations.
+
+### 📝 Example: Recursive Factorial (`ej04.pas`)
+
 <pre><code>var
     numero: Integer;
 
@@ -135,7 +130,8 @@ begin
     WriteLn('El factorial de:', numero, ' es ', Factorial(numero));   
 end.</code></pre>
 
-    <h3>⚙️ Output Blueprint State (<code>ej04.mas</code>)</h3>
+### ⚙️ Output Blueprint State (`ej04.mas`)
+
 <pre><code>pas/ej04.mas
 	0000-0000 PSH _VARIABLE  	         Integer	0000:0000
 	0000-0005 PSH _CONSTANTE	         Integer	0000:0011
@@ -153,23 +149,22 @@ end.</code></pre>
 	0000-0044 RTN
 0000-0082 FIN</code></pre>
 
-    <hr>
+<hr>
 
-    <h2>🤝 Contributing &amp; Guidelines</h2>
-    <p>Contributions extending the VM custom instruction set or refining AST parsing algorithms are highly appreciated.</p>
+## 🤝 Contributing & Guidelines
 
-    <blockquote>
-        ⚠️ <strong>Memory Warning:</strong> Always validate dynamic memory allocations (<code>malloc</code> returns) inside your patches to prevent unexpected runtime segmentation faults on 64-bit systems.
-    </blockquote>
+Contributions extending the VM custom instruction set or refining AST parsing algorithms are highly appreciated. 
 
-    <hr>
-    <p><em>Built with passion for low-level software engineering, keeping the spirit of 80s programming alive on modern 64-bit Unix platforms.</em></p>
-    <hr>
+<blockquote>
+    ⚠️ <strong>Memory Warning:</strong> Always validate dynamic memory allocations (<code>malloc</code> returns) inside your patches to prevent unexpected runtime segmentation faults on 64-bit systems.
+</blockquote>
 
-    <h2>✒️ Author</h2>
-    <ul>
-        <li><strong>jmyix</strong> - <em>Initial work &amp; Architecture design</em> - <a href="https://github.com">@jmyix</a></li>
-    </ul>
+<hr>
 
-</body>
-</html>
+*Built with passion for low-level software engineering, keeping the spirit of 80s programming alive on modern 64-bit Unix platforms.*
+
+<hr>
+
+## ✒️ Author
+
+* **jmyix** - *Initial work & Architecture design* - [@jmyix](https://github.com)
