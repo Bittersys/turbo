@@ -1,0 +1,30 @@
+# ====================================================================
+# Gitignore for Turbo Pascal Ecosystem (C / macOS / Linux)
+# ====================================================================
+
+# --- Compiled Binaries, Objects & Custom Tests ---
+turbo
+*.o
+*.out
+*.app
+readfile.dSYM/
+test.dSYM/
+test.*
+.vscode/
+
+# --- Core Dumps & Debugging Symbols ---
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# --- OS-Specific Junk ---
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+.directory
+
