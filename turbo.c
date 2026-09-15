@@ -1,55 +1,55 @@
 /*
 turbo.c
 
-Notas:
-    El tamaño de palabra para el segmento de codigo debe ser
-    de 16 bits.
+Notes:
+    The word size for the code segment must be
+    16 bits.
 
-    Esta version corrige los saltos IF con el tamaño correcto
-    de bytes. Por default usa 2 para int, aqui se corrige con el
-    tipo de datos unit16_t.
+    This version fixes the IF jumps with the correct
+    byte size. By default it uses 2 for int, here it is fixed
+    with the uint16_t data type.
 
-    Siguiente paso revisar todas las instrucciones y sus saltos
-    para que avance solo 2 bytes.
+    Next step is to review all instructions and their jumps
+    so that it advances only 2 bytes.
 
-    Actualmente el error es que se avanzan 2 bytes al puntero pero 
-    se copian datos tipo unsigned con tamaño de bytes.
+    Currently the error is that the pointer advances 2 bytes but 
+    unsigned data is copied with byte size.
 
-    _ARRAY =    Palabra reservada
-    ARREGLO =   Tipo de datos
-    chkarg retorna void y se pretende usar el valor de retorno
+    _ARRAY =    Reserved word
+    ARREGLO =   Data type
+    chkarg returns void and the return value is intended to be used
 */
 
 #include "turbo.h"
 
-/*      Definicion del SEGMENTO DE CODIGO               */
+/*      CODE SEGMENT Definition               */
 ADDRESS
-    cs[CODESIZE],           /* El segmento de codigo        */
-    *pc,                    /* El contador de programa      */
-    *ip;                    /* El apuntador al codigo       */
+    cs[CODESIZE],           /* The code segment        */
+    *pc,                    /* The program counter      */
+    *ip;                    /* The pointer to the code       */
 
-/*      Definicion del SEGMENTO DE DATOS                */
+/*      DATA SEGMENT Definition                */
 ADDRESS
-    ds[DATASIZE],           /* El segmento de datos         */
-    *dx,                    /* El apuntador a las constantes */
-    *px;                    /* El apuntador a las temporales */
+    ds[DATASIZE],           /* The data segment         */
+    *dx,                    /* The pointer to constants */
+    *px;                    /* The pointer to temporaries */
 
-/*      Definicion del SEGMENTO DE STACK                */
-DATO d,                     /* El dato temporal             */
-    *sp,                    /* El apuntador al stack        */
-    ss[STACKSIZE];          /* El segmento de stack         */
+/*      STACK SEGMENT Definition                */
+DATO d,                     /* The temporary data             */
+    *sp,                    /* The pointer to the stack        */
+    ss[STACKSIZE];          /* The stack segment         */
 
-/*      Definicion de REGISTROS DE ACTIVACION           */
+/*      ACTIVATION RECORDS Definition           */
 ACTIVACION
-    *rs[REGSIZE];           /* Arreglo de registros de activacion */
+    *rs[REGSIZE];           /* Array of activation records */
 
 unsigned
-    ri;                     /* Indice de Activacion Actual  */
+    ri;                     /* Current Activation Index  */
 
-/*      Definicion de Stack para comprobar tipos        */
+/*      Stack Definition for type checking        */
 ADDRESS
-    ti,                     /* Indice de Tipos              */
-    ts[TIPOSIZE];           /*  Estructura de tipos             */
+    ti,                     /* Type Index              */
+    ts[TIPOSIZE];           /* Type structure             */
 
 VALOR 
     v;
@@ -73,7 +73,7 @@ int main( int argc, char ** argv ) {
 
     if ( !strcmp(argv[1], "--run") ) {
         if (argc < 3) {
-            fprintf(stderr, "Error: Falta especificar el archivo .bin después de --run\n");
+            fprintf(stderr, "Error: Missing .bin file specification after --run\n");
             return EXIT_FAILURE;
         }
         
@@ -117,7 +117,7 @@ void _ejecuta() {
     SysError = 0;
     control = setjmp(ambiente);    
     if ( SysError ) goto fin;
-    px = dx;        /* Asigna direccion inicial de la pila */
+    px = dx;        /* Assigns initial address of the stack */
     iz = 0;
     _cll(pc);
     fin:;
@@ -129,7 +129,7 @@ void _listado() {
     control = setjmp(ambiente);
     if ( SysError ) goto fin;
 
-    px = dx;        /* Asigna direccion inicial de la pila */
+    px = dx;        /* Assigns initial address of the stack */
     _lst();
     fin:;
 }
@@ -140,13 +140,13 @@ void text( char *s ) {
 
 void error( char *s ) {
 
-    printf("Error en linea %d: %s\n",linea,s);
+    printf("Error on line %d: %s\n",linea,s);
     SysError = 1;
     longjmp(ambiente,control);
 }
 
 void msglines() {
-    text("Compilando      lineas.");
+    text("Compiling      lines.");
     text(itoa(linea));
 }
 
@@ -187,34 +187,34 @@ void _cargar() {
 
 
 /* 
-    Leer un archivo en texto y devolver un apuntador
-    de caracteres al buffer que lo contiene
+    Read a text file and return a character pointer
+    to the buffer containing it
 */
 char * readfile( char *s ) {
     FILE *archivo = fopen(s, "rb");
     if (archivo == NULL) {
-        printf("No se pudo abrir el archivo.\n");
+        printf("Could not open the file.\n");
         return(NULL);
     }
 
-    // Ir al final del archivo para medir su tamaño
+    // Go to the end of the file to measure its size
     fseek(archivo, 0, SEEK_END);
     long tamano = ftell(archivo);
-    rewind(archivo); // Regresar al inicio del archivo
+    rewind(archivo); // Return to the beginning of the file
 
-    // Reservar memoria para el búfer (+1 para el carácter nulo '\0')
+    // Allocate memory for the buffer (+1 for the null character '\0')
     char *buffer = (char *)malloc(tamano + 1);
     if (buffer == NULL) {
-        printf("Error al asignar memoria.\n");
+        printf("Error allocating memory.\n");
         fclose(archivo);
         return(NULL);
     }
 
-    // Leer el contenido del archivo en el búfer
+    // Read file content into the buffer
     size_t leido = fread(buffer, 1, tamano, archivo);
-    buffer[leido] = '\0'; // Asegurar el fin de cadena para texto
+    buffer[leido] = '\0'; // Ensure string termination for text
 
-    // Liberar recursos
+    // Free resources
     fclose(archivo);
 
     return(buffer);
@@ -233,13 +233,13 @@ char *itoa(int n) {
     char *buffer = (char *)malloc(12 * sizeof(char)); 
 
     if (buffer == NULL) {
-        return NULL; // Fallo al asignar memoria
+        return NULL; // Failed to allocate memory
     }
 
-    // sprintf llena el buffer. No usamos su valor de retorno aquí.
+    // sprintf fills the buffer. We do not use its return value here.
     sprintf(buffer, "%d", n); 
 
-    return buffer; // Devolvemos el puntero a la memoria asignada
+    return buffer; // Return the pointer to the allocated memory
 }
 
 void show( char *s ) {
@@ -249,7 +249,7 @@ void show( char *s ) {
 void showTypeStack() {
     int i;
 
-    printf("El apuntador indica: %d\n", ti);
+    printf("The pointer indicates: %d\n", ti);
     for ( i=ti; i >= 0; i -- )
         printf("--%#X--\n", ts[i]);
 }
@@ -261,7 +261,7 @@ void debugDim( ADDRESS *d ) {
     printf("\n");
 }
 
-/* 3 primeros bytes usados por ctes_predef  ('\n', True, False) */
+/* First 3 bytes used by ctes_predef ('\n', True, False) */
 void dumpDS() {
     int i;
     for ( i=0; i < 36; i ++ )
@@ -303,22 +303,22 @@ void dumpCS() {
 }
 
 void mostrar_ayuda(const char *prog_name) {
-    printf("Uso del Compilador Turbo:\n");
-    printf("  %s <archivo.pas>       Compila un archivo fuente de Pascal.\n", prog_name);
-    printf("  %s --run <archivo.bin> Carga y ejecuta un bytecode binario directamente.\n", prog_name);
+    printf("Turbo Compiler Usage:\n");
+    printf("  %s <file.pas>       Compiles a Pascal source file.\n", prog_name);
+    printf("  %s --run <file.bin> Loads and runs a binary bytecode directly.\n", prog_name);
 }
 
 void init_runtime() {
-    ip = cs;            /* Inicia apuntador de Instrucciones */
-    dx = ds;            /* Inicia apuntador de Datos Constantes*/
-    sp = ss;            /* Inicia apuntador de Stack          */
+    ip = cs;            /* Initializes Instruction pointer */
+    dx = ds;            /* Initializes Constant Data pointer */
+    sp = ss;            /* Initializes Stack pointer          */
                         /*                                    */
-    ri = 0;             /* Inicia Indice de Activaciones      */
+    ri = 0;             /* Initializes Activation Index      */
     rs[ri] = (ACTIVACION *) malloc(sizeof(*rs[0]));
     rs[ri]->codigo= -1;
     rs[ri]->datos = ds;
     rs[ri]->ptr = NULL;
 
-    ti = 0;             /* Inicia Indice de Chequeo de tipos */
+    ti = 0;             /* Initializes Type Checking Index */
     ctes_predef();    
 }

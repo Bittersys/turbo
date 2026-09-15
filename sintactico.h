@@ -6,20 +6,20 @@
 #include "lexico.h"
 
 extern VALOR v;
-/*      Definicion del SEGMENTO DE DATOS                */
+/*      DATA SEGMENT Definition                */
 extern ADDRESS
-    ds[DATASIZE],           /* El segmento de datos         */
-    *dx,                    /* El apuntador a las constantes */
-    *px;                    /* El apuntador a las temporales */
-extern DATO d;              /* El dato temporal             */
+    ds[DATASIZE],           /* The data segment         */
+    *dx,                    /* The pointer to constants */
+    *px;                    /* The pointer to temporaries */
+extern DATO d;              /* The temporary data             */
 extern ADDRESS
-    cs[CODESIZE],           /* El segmento de codigo        */
-    *pc,                    /* El contador de programa      */
-    *ip;                    /* El apuntador al codigo       */
-/*      Definicion de Stack para comprobar tipos        */
+    cs[CODESIZE],           /* The code segment        */
+    *pc,                    /* The program counter      */
+    *ip;                    /* The pointer to the code       */
+/*      Stack Definition for type checking        */
 extern ADDRESS
-    ti,                     /* Indice de Tipos              */
-    ts[TIPOSIZE];           /*  Estructura de tipos             */
+    ti,                     /* Type Index              */
+    ts[TIPOSIZE];           /*  Type structure             */
 
 
 extern SIMBOLO simbolos[128];

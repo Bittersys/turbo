@@ -2,15 +2,15 @@
 #ifndef LEXICO_H
 #define LEXICO_H
 
-#include "turbo.h" // Asegura que conozca el tipo SIMBOLO
+#include "turbo.h" // Ensures it knows the SIMBOLO type
 
-/*      Definicion del SEGMENTO DE DATOS                */
+/*      DATA SEGMENT Definition                */
 extern ADDRESS
-    ds[DATASIZE],           /* El segmento de datos         */
-    *dx,                    /* El apuntador a las constantes */
-    *px;                    /* El apuntador a las temporales */
+    ds[DATASIZE],           /* The data segment         */
+    *dx,                    /* The pointer to constants */
+    *px;                    /* The pointer to temporaries */
 
-extern DATO d;              /* El dato temporal             */
+extern DATO d;              /* The temporary data             */
 extern int linea, nivel, si, indecl, inargs, inproc, inasgn, inrang, array, rtn; 
 extern char *bfr, *pun;
 extern unsigned bsize;

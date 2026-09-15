@@ -67,7 +67,7 @@ int scanner() {
             else if ( (ps=busca(p)) == -1 ) {
                 ps = si;
                 if ( indecl || inproc || inargs ) inserta_simbolo(p,_UNDEF);
-                else error("Variable sin definir.");
+                else error("Undefined variable.");
                 return(_UNDEF);
             }
             d.t = simbolos[ps].tipo;
@@ -100,7 +100,7 @@ int scanner() {
                  } else if ( t == '}' )
                      break;
                  *s++ = t;
-                 if ( (s-tmp) > 256 ) error("Comentario muy largo o falta delimitador");
+                 if ( (s-tmp) > 256 ) error("Comment too long or missing delimiter");
              }
              *s = 0;
         }
@@ -115,12 +115,12 @@ int scanner() {
                      break;
                  *s++ = t;
                  str_lon ++;
-                 if ( str_lon > 256 ) error("String muy largo");
+                 if ( str_lon > 256 ) error("String too long");
              }
              *s = 0;
 
              if ( t != '\'' )
-                 error("Delimitador Incorrecto");
+                 error("Incorrect delimiter");
 
              if ( str_lon <= 1 ) {
                  v.c = _bfr[1];
@@ -168,7 +168,7 @@ int next() {
     else return(0);
 }
 
-/*      Manejo de Palabras Reservadas           */
+/*      Reserved Words Management           */
 
 struct {
     char *p;
@@ -223,7 +223,7 @@ int reservada( char *s ) {
     return(0);
 }
 
-/*      Manejo de Tabla de Símbolos             */
+/*      Symbol Table Management             */
 
 int busca ( char *s ) {
     int i;

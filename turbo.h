@@ -1,9 +1,9 @@
 /*
 turbo.h
-    Formato de dim: 
-        2 bytes para el tipo de dato.            Ej. CHAR=0x01, INTEGER=0x02
-        1 byte para las dimensiones del arreglo. Ej. 1..5, entonces 0x1; 1..5,1..4 entonces 2
-        2 bytes para el numero de objetos en el arreglo. Ej. Si 1..5 entonces 5 elementos
+    Dim format: 
+        2 bytes for the data type.            E.g., CHAR=0x01, INTEGER=0x02
+        1 byte for the array dimensions.     E.g., 1..5, then 0x1; 1..5,1..4 then 2
+        2 bytes for the number of objects in the array. E.g., If 1..5 then 5 elements
 */
 #ifndef TURBO_H
 #define TURBO_H
@@ -73,7 +73,7 @@ typedef unsigned char ADDRESS;
 
 typedef struct {
     ADDRESS t,s;
-    uint16_t o;     /* Permite 64K Segmentos de 64K bytes */
+    uint16_t o;     /* Allows 64K Segments of 64K bytes */
 } DATO;
 
 typedef union valor {
@@ -89,7 +89,7 @@ typedef struct activacion {
     struct activacion *ptr;
 } ACTIVACION;
 
-/*      Estructura de datos para el uso de identificadores      */
+/*      Data structure for the use of identifiers      */
 typedef struct {
     char        *nombre;
     unsigned    nivel,
@@ -101,7 +101,7 @@ typedef struct {
 } SIMBOLO;
 
 /*
-    Definicion de prototipos
+    Prototype definitions
 */
 char *fota( double n ), *wsave( int ri, int ci, int rf, int cf ),
     *readfile( char *s ), *strlwr(char *str), *itoa(int n);
