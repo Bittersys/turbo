@@ -870,55 +870,57 @@ void factor() {
 
     switch ( pre ) {
         case  '-':
-             match('-');
-             ip[1] = _INTEGER;
-             ip += 4;
-             expresion();
-             chktipo(MEU);
-             *ip++ = MEU;
-             break;
+            match('-');
+            ip[1] = _INTEGER;
+            ip += 4;
+            expresion();
+            chktipo(MEU);
+            *ip++ = MEU;
+            break;
         case  NOT:
-             match(NOT);
-             factor();
-             chkarg(NOC);
-             *ip++ = NOC;
-             break;
+            match(NOT);
+            factor();
+            chkarg(NOC);
+            *ip++ = NOC;
+            break;
         case  _TRUE:
-             match(_TRUE);
-             d.t = _CONSTANTE|_BOOLEAN;
-             ensambla(CONST_SEG,1);
-             break;
+            match(_TRUE);
+            d.t = _CONSTANTE|_BOOLEAN;
+            ensambla(CONST_SEG,1);
+            break;
         case  _FALSE:
-             match(_FALSE);
-             d.t = _CONSTANTE|_BOOLEAN;
-             ensambla(CONST_SEG,2);
-             break;
+            match(_FALSE);
+            d.t = _CONSTANTE|_BOOLEAN;
+            ensambla(CONST_SEG,2);
+            break;
         case  _PI:
-             match(_PI);
-             d.t = _CONSTANTE|_REAL;
-             ensambla(CONST_SEG,3);
-             break;
+            match(_PI);
+            d.t = _CONSTANTE|_REAL;
+            ensambla(CONST_SEG,3);
+            break;
         case  '(':
-             match('(');
-             expresion();
-             match(')');
-             break;
+            match('(');
+            expresion();
+            match(')');
+            break;
         case  ID:
         case _ARRAY:
-             idcode();
-             break;
+            idcode();
+            break;
         case  _FUNC:
-             funccode();
-             break;
+            funccode();
+            break;
         case  CONST:
-             ensambla(CONST_SEG,simbolos[ps].offset);
-             match(CONST);
-             break;
+            ensambla(CONST_SEG,simbolos[ps].offset);
+            match(CONST);
+            break;
         case CAR:
         case NUM:
         case _STRING:
-             match(pre);
-             break;
+            match(pre);
+            break;
+        default:
+            error("Token inesperado");
     }
 }
 
