@@ -34,8 +34,8 @@ extern ACTIVACION *rs[REGSIZE]; /* Arreglo de registros de activacion */
 extern unsigned ri;             /* Indice de Activacion Actual  */
 
 void _log(), _wrt(), _rea(), _psh( ADDRESS t, ADDRESS s, uint16_t o ),
-    _alc( unsigned codigo, unsigned n ), _fre(), _add(), _sub(),
-    _mul(), _div(), _mod(), _anc(), _orc(), _noc(), _ltc(), _lec(),
+    _alc( unsigned codigo, unsigned n ), _fre(), _add(), _sub(), _meu(),
+    _mul(), _div(), _mod(), _anc(), _orc(), _noc(), _ltc(), _lec(), _cst(),
     _gtc(), _gec(), _nec(), _eqc(), _sav(), _asg(), _inc(), _dec(),
     _cpy( ADDRESS n ), _rst( ADDRESS *n ), _eva( ADDRESS *c ), 
     _uns( ADDRESS n ), _cll( ADDRESS *codigo ), 

@@ -28,7 +28,7 @@ enum instrucciones {
     ADD,SUB,MUL,MOD,DIV,PSH,ASG,REA,WRT,IFC,CAC,
     GTC,LTC,EQC,LEC,GEC,NEC,ORC,ANC,NOC,MEU,JMP,
     INC,DEC,RTN,CLL,FRE,ALC,CPY,SAV,UNS,RST,EVA,
-    STK,FAR
+    STK,FAR,CST
 };
 
 enum tokens {
@@ -77,7 +77,7 @@ typedef struct {
 } DATO;
 
 typedef union valor {
-    uint16_t i;
+    int16_t i;
     char c;
     double d;
     char *s;

@@ -22,6 +22,12 @@ void _lst() {
             case  SUB:  fprintf(out,"[1]SUB\n");
                         codigo ++;
                         break;
+            case  CST:  fprintf(out,"[1]CAS\n");
+                        codigo ++;
+                        break;
+            case  MEU:  fprintf(out,"[1]MEU\n");
+                        codigo ++;
+                        break;
             case  MUL:  fprintf(out,"[1]MUL\n");
                         codigo ++;
                         break;

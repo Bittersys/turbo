@@ -24,6 +24,9 @@ void _cll( ADDRESS *codigo ) {
             case  CPY:  _cpy(codigo[1]);
                         codigo += 2;
                         break;
+            case  CST:  _cst();
+                        codigo ++;
+                        break;
             case  DEC:  _dec();
                         codigo ++;
                         break;
@@ -37,6 +40,9 @@ void _cll( ADDRESS *codigo ) {
                         codigo += codigo[3]*4+6;
                         break;
             case  SUB:  _sub();
+                        codigo ++;
+                        break;
+            case  MEU:  _meu();
                         codigo ++;
                         break;
             case  MUL:  _mul();
@@ -239,12 +245,44 @@ void _sub() {
 
 }
 
+void _cst() {
+    VALOR w;
+    ADDRESS t1,t2;
+    d = * --sp; t2 = d.t; v = de_memoria(d.s,d.o,d.t);
+    d = * --sp; t1 = d.t; w = de_memoria(d.s,d.o,d.t);
+
+    // Aplicando casting de Entero a Real
+    if ( TIPO(t1) == _INTEGER && TIPO(t2) == _REAL ) v.d *= w.i;
+
+    d.t = _CONSTANTE|_REAL;
+    _psh(d.t,ri,px-ds);
+    px += a_memoria(px,(ADDRESS*)&v,d.t);
+
+}
+
+void _meu() {
+    VALOR w;
+    ADDRESS t1,t2;
+
+    d = * --sp; t2 = d.t; v = de_memoria(d.s,d.o,d.t);
+    d = * --sp; t1 = d.t; w = de_memoria(d.s,d.o,d.t);
+
+    if ( TIPO(t1) == _INTEGER && TIPO(t2) == _INTEGER ) w.i *= v.i;
+    if ( TIPO(t1) == _REAL && TIPO(t2) == _INTEGER )    w.d *= v.i;
+
+    d.t = _CONSTANTE|TIPO(d.t);
+    _psh(d.t,ri,px-ds);
+    px += a_memoria(px,(ADDRESS*)&w,d.t);
+
+}
+
 void _mul() {
     VALOR w;
     ADDRESS t1,t2;
 
     d = * --sp; t2 = d.t; v = de_memoria(d.s,d.o,d.t);
     d = * --sp; t1 = d.t; w = de_memoria(d.s,d.o,d.t);
+
     if ( TIPO(t1) == _REAL && TIPO(t2) == _REAL )
         w.d *= v.d;
     if ( TIPO(t1) == _INTEGER && TIPO(t2) == _INTEGER )
@@ -450,9 +488,10 @@ void _sav() {    /* Coloca en lugar seguro el retorno de una funcion */
 
 void _asg() {
     DATO x;
-    
+
     d = * --sp;
     x = * --sp;
+
     copia(x,d,0);
     reset_px;
 }

@@ -871,10 +871,10 @@ void factor() {
     switch ( pre ) {
         case  '-':
             match('-');
-            ip[1] = _INTEGER;
-            ip += 4;
             expresion();
             chktipo(MEU);
+            d.t = _CONSTANTE|_INTEGER;
+            ensambla(CONST_SEG,3);
             *ip++ = MEU;
             break;
         case  NOT:
@@ -928,13 +928,13 @@ void negacion() {
 
     switch ( pre ) {
         case  '-':
-             match('-');
-             ip[1] = _INTEGER;
-             ip += 4;
-             expresion();
-             chktipo(MEU);
-             *ip++ = MEU;
-             break;
+            match('-');
+            expresion();
+            chktipo(MEU);
+            d.t = _CONSTANTE|_INTEGER;
+            ensambla(CONST_SEG,3);
+            *ip++ = MEU;
+            break;
         case  NOT:
              match(NOT);
              factor();
@@ -997,6 +997,7 @@ void idcode() {
         expresion();
         inasgn = 0;
         chktipo(ASG);
+        // Si Integer to Real, Entonces CAST automatico
         *ip ++ = ASG;
     }
 }
@@ -1010,73 +1011,79 @@ void match( int t ) {
 }
 
 void chktipo( ADDRESS o ) {
-    ADDRESS i,d;
-    d = ts[--ti]&0x7;
-    i = ts[--ti]&0x7;
+    ADDRESS izq,der;
+    der = ts[--ti]&0x7;
+    izq = ts[--ti]&0x7;
 
     switch ( o ) {
         case  ASG:
-             switch ( i ) {
-                 case  _REAL:
-                      if ( d == _REAL || d == _INTEGER ) ts[ti++] = _REAL;
-                      else error("Asignacion de un no_REAL o conversion imposible");
-                      break;
-                 case  _INTEGER:
-                      if ( d == _INTEGER ) ts[ti++] = _INTEGER;
-                      else error("Asignacion de un no_INTEGER");
-                      break;
-                 case  _STRING:
-                      if ( d == _CHAR || d == _STRING ) ts[ti++] = _STRING;
-                      else error("Asignacion de un no_STRING");
-                      break;
-                 case  _CHAR:
-                      if ( d == _CHAR ) ts[ti++] = _CHAR;
-                      else error("Asignacion de un no caracter");
-                      break;
-                 case  _BOOLEAN:
-                      if ( d == _BOOLEAN ) ts[ti++] = _BOOLEAN;
-                      else error("Asignacion no booleana");
-                      break;
+            switch ( izq ) {
+                case  _REAL:
+                    // Genera un CAST autmatico de INTEGER a REAL
+                    if ( der == _INTEGER ) {
+                        d.t = _CONSTANTE|_REAL;
+                        ensambla(CONST_SEG,13);
+                        *ip ++ = CST;
+                    }
+                    if ( der == _REAL || der == _INTEGER ) ts[ti++] = _REAL;
+                    else error("Asignacion de un no_REAL o conversion imposible");                      
+                    break;
+                case  _INTEGER:
+                    if ( der == _INTEGER ) ts[ti++] = _INTEGER;
+                    else error("Asignacion de un no_INTEGER");
+                    break;
+                case  _STRING:
+                    if ( der == _CHAR || der == _STRING ) ts[ti++] = _STRING;
+                    else error("Asignacion de un no_STRING");
+                    break;
+                case  _CHAR:
+                    if ( der == _CHAR ) ts[ti++] = _CHAR;
+                    else error("Asignacion de un no caracter");
+                    break;
+                case  _BOOLEAN:
+                    if ( der == _BOOLEAN ) ts[ti++] = _BOOLEAN;
+                    else error("Asignacion no booleana");
+                    break;
              } break;
         case  ADD:
-             switch ( i ) {
+             switch ( izq ) {
                  case  _REAL:
-                      if ( d == _REAL || d == _INTEGER ) ts[ti++] = _REAL;
+                      if ( der == _REAL || der == _INTEGER ) ts[ti++] = _REAL;
                       else error("Adicion entre tipos incompatibles");
                       break;
                  case  _INTEGER:
-                      if ( d == _INTEGER ) ts[ti++] = _INTEGER;
-                      else if ( d == _REAL ) ts[ti++] = _REAL;
+                      if ( der == _INTEGER ) ts[ti++] = _INTEGER;
+                      else if ( der == _REAL ) ts[ti++] = _REAL;
                       else error("Adicion entre tipos incompatibles");
                       break;
                  case  _CHAR:
-                      if ( d == _CHAR || d == _STRING ) ts[ti++] = _STRING;
+                      if ( der == _CHAR || der == _STRING ) ts[ti++] = _STRING;
                       else error("Adicion entre tipos incompatibles");
                       break;
                  case  _STRING:
-                      if ( d == _CHAR || d == _STRING ) ts[ti++] = _STRING;
+                      if ( der == _CHAR || der == _STRING ) ts[ti++] = _STRING;
                       else error("Adicion entre tipos incompatibles");
                       break;
              } break;
         case  SUB:
         case  MUL:
         case  DIV:
-             switch ( i ) {
+             switch ( izq ) {
                  case  _REAL:
-                      if ( d == _REAL || d == _INTEGER ) ts[ti++] = _REAL;
+                      if ( der == _REAL || der == _INTEGER ) ts[ti++] = _REAL;
                       else error("Operacion entre tipos incompatibles");
                       break;
                  case  _INTEGER:
-                      if ( d == _INTEGER ) ts[ti++] = _INTEGER;
-                      else if ( d == _REAL ) ts[ti++] = _REAL;
+                      if ( der == _INTEGER ) ts[ti++] = _INTEGER;
+                      else if ( der == _REAL ) ts[ti++] = _REAL;
                       else error("Operacion entre tipos incompatibles");
                       break;
                  default: error("Operacion entre tipos incompatibles"); break;
              } break;
         case  MOD:
-             switch ( i ) {
+             switch ( izq ) {
                  case  _INTEGER:
-                      if ( d == _INTEGER ) ts[ti++] = _INTEGER;
+                      if ( der == _INTEGER ) ts[ti++] = _INTEGER;
                       else error("Residuo entre tipos incompatibles");
                       break;
                  default:
@@ -1084,18 +1091,18 @@ void chktipo( ADDRESS o ) {
                       break;
              } break;
         case  MEU:
-             if ( d == _REAL ) ts[ti++] = _REAL;
-             else if ( d == _INTEGER ) ts[ti++] = _INTEGER;
+             if ( der == _REAL ) ts[ti++] = _REAL;
+             else if ( der == _INTEGER ) ts[ti++] = _INTEGER;
              else error("Operador unario aplicado a tipo incompatible");
              break;
         case  NOC:  /* Ejecutar pruebas de validacion */
-             if ( d == _BOOLEAN ) ts[ti++] = _BOOLEAN;
+             if ( der == _BOOLEAN ) ts[ti++] = _BOOLEAN;
              else error("Operador Logico aplicado a tipo incompatible");
              break;
         case  ORC:
         case  ANC:
-             if ( i == _BOOLEAN && d == _BOOLEAN )      ts[ti++] = _BOOLEAN;
-             else if ( i == _INTEGER && d == _INTEGER ) ts[ti++] = _INTEGER;
+             if ( izq == _BOOLEAN && der == _BOOLEAN )      ts[ti++] = _BOOLEAN;
+             else if ( izq == _INTEGER && der == _INTEGER ) ts[ti++] = _INTEGER;
              else error("Expression logica entre tipos incompatibles");
              break;
         case GTC:
@@ -1104,11 +1111,11 @@ void chktipo( ADDRESS o ) {
         case LEC:
         case NEC:
         case EQC:
-            if ( i == _BOOLEAN && d == _BOOLEAN )       ts[ti++] = _BOOLEAN;
-            else if ( (i == _INTEGER || i == _REAL) &&
-                       (d == _INTEGER || d == _REAL) )  ts[ti++] = _BOOLEAN;
-            else if ( i == _CHAR && d == _CHAR )        ts[ti++] = _BOOLEAN;
-            else if ( i == _STRING && d == _STRING )    ts[ti++] = _BOOLEAN;
+            if ( izq == _BOOLEAN && der == _BOOLEAN )       ts[ti++] = _BOOLEAN;
+            else if ( (izq == _INTEGER || izq == _REAL) &&
+                       (der == _INTEGER || der == _REAL) )  ts[ti++] = _BOOLEAN;
+            else if ( izq == _CHAR && der == _CHAR )        ts[ti++] = _BOOLEAN;
+            else if ( izq == _STRING && der == _STRING )    ts[ti++] = _BOOLEAN;
             else error("Expression logica entre tipos incompatibles");
             break;
 

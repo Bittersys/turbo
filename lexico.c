@@ -253,20 +253,37 @@ void inserta_simbolo( char *n, int t ) {
 
 void ctes_predef() {
 
+    // Caracter NL      OFF 0
     v.c = '\n';
     d.t = _CONSTANTE|_CHAR;
     a_memoria(dx++,(ADDRESS*)&v,d.t);
 
+    // Boolean True     OFF 1
     v.c = 1;
     d.t = _CONSTANTE|_BOOLEAN;
     a_memoria(dx++,(ADDRESS*)&v,d.t);
 
+    // Boolean False    OFF 2
     v.c = 0;
     d.t = _CONSTANTE|_BOOLEAN;
     a_memoria(dx++,(ADDRESS*)&v,d.t);
 
+    // Menos Unitario   OFF 3
+    v.i = -1;
+    d.t = _CONSTANTE|_INTEGER;
+    a_memoria(dx,(ADDRESS*)&v,d.t);
+    dx += INT_WIDTH;
+
+    // PI               OFF 5
     v.d = 3.14159265359;
     d.t = _CONSTANTE|_REAL;
-    a_memoria(dx,(ADDRESS*)&v,d.t); dx += sizeof(double);
+    a_memoria(dx,(ADDRESS*)&v,d.t); 
+    dx += sizeof(double);
+
+    // CAST to REAL     OFF 13
+    v.d = 1.0;
+    d.t = _CONSTANTE|_REAL;
+    a_memoria(dx,(ADDRESS*)&v,d.t);
+    dx += sizeof(double);
 
 }
